@@ -4,6 +4,8 @@ public abstract class Player {
     private String name;
     private Symbol symbol;
 
+    public abstract Move makeMove(Board board);
+
     public Player(String name, Symbol symbol) {
         this.name = name;
         this.symbol = symbol;

@@ -29,4 +29,20 @@ public class Board {
             System.out.println();
         }
     }
+
+    public Integer getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Integer dimension) {
+        this.dimension = dimension;
+    }
+
+    public List<List<Cell>> getGrid() {
+        return grid;
+    }
+
+    public void setGrid(List<List<Cell>> grid) {
+        this.grid = grid;
+    }
 }
