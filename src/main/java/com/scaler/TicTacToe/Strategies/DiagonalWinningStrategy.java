@@ -8,4 +8,12 @@ public class DiagonalWinningStrategy implements WinningStrategy {
     public boolean checkWinner(Board board, Move move) {
         return false;
     }
+
+    @Override
+    public void undoCountMapUpdate(Move move) {
+
+    }
 }
+// Homework:
+// If(i == j) : update diagonalCountMap[0]
+// If(i+j == N-1) : update diagonalCountMap[1]

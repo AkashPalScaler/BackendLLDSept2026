@@ -32,4 +32,12 @@ public class GameController {
     public GameStatus getGameStatus(Game game) {
         return game.getStatus();
     }
+
+    public String getGameWinner(Game game) {
+        return game.getWinner().getName();
+    }
+
+    public void undo(Game game) {
+        game.undo();
+    }
 }

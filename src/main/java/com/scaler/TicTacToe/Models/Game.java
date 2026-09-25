@@ -85,7 +85,29 @@ public class Game {
             this.status = GameStatus.DRAW;
         }
         // increment the nextPLayerIndex
-        nextPlayerIndex = (nextPlayerIndex + 1) % winningStrategies.size();
+        nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+    }
+
+    public void undo() {
+        // Remove and Get the last move from moves history
+        Move lastMove = moves.get(moves.size() - 1);
+        // Update the board cells to undo the change
+        Cell cellFromMove = lastMove.getCell(); // Just for row,col info
+
+        this.board.getGrid().get(cellFromMove.getRow()).get(cellFromMove.getColumn()).setStatus(CellStatus.EMPTY);
+        this.board.getGrid().get(cellFromMove.getRow()).get(cellFromMove.getColumn()).setSymbol(null);
+
+        // Update the game status and winner
+        this.status = GameStatus.IN_PROGRESS;
+        this.winner = null;
+
+        // Decrement nextPlayerIndex [MOD arithmetic - (a-b)%m =  (a%m - b%m + m)%m]
+        nextPlayerIndex = (nextPlayerIndex - 1 + players.size()) % players.size();
+        // Update all strategy countMaps to undo the move
+        for(WinningStrategy strategy : winningStrategies){
+            strategy.undoCountMapUpdate(lastMove);
+        }
+
     }
 
     public static class GameBuilder {
