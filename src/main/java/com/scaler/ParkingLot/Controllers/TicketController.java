@@ -4,8 +4,6 @@ import com.scaler.ParkingLot.DTOs.IssueTicketRequestDTO;
 import com.scaler.ParkingLot.DTOs.IssueTicketResponseDTO;
 import com.scaler.ParkingLot.DTOs.ResponseStatus;
 import com.scaler.ParkingLot.Models.Ticket;
-import com.scaler.ParkingLot.Models.Vehicle;
-import com.scaler.ParkingLot.Models.VehicleType;
 import com.scaler.ParkingLot.Services.TicketService;
 
 public class TicketController {
@@ -13,7 +11,7 @@ public class TicketController {
     public TicketController(TicketService ticketService){
         this.ticketService = ticketService;
     }
-    IssueTicketResponseDTO issueTicket(IssueTicketRequestDTO requestDTO){
+    public IssueTicketResponseDTO issueTicket(IssueTicketRequestDTO requestDTO){
         IssueTicketResponseDTO responseDTO = new IssueTicketResponseDTO();
         try{
             // Input Validation on the request DTO
@@ -26,13 +24,19 @@ public class TicketController {
 
             responseDTO.setTicketId(ticket.getId());
             responseDTO.setTicketNumber(ticket.getNumber());
-            responseDTO.setEntryTime(ticket.getEntry());
+            responseDTO.setEntryTime(ticket.getEntryTime());
             responseDTO.setMessage("Ticket issued successfully!");
             responseDTO.setResponseStatus(ResponseStatus.SUCCESS);
 
-        }catch (Exception e){
+        }
+        catch (RuntimeException ex){
+            System.out.println("Runtime Error in issuing ticket : " + ex.getMessage());
+//            ex.printStackTrace();
+            responseDTO.setResponseStatus(ResponseStatus.FAILURE);
+            responseDTO.setMessage(ex.getMessage());
+        }
+        catch (Exception e){
             System.out.println("Error in issuing ticket : " + e.getMessage());
-            e.printStackTrace();
             responseDTO.setResponseStatus(ResponseStatus.FAILURE);
             responseDTO.setMessage(e.getMessage());
         }
